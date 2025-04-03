@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
-import { ButtonLike } from "../pages/ButtonLike.jsx";
+import { Favourites } from "./Favourites.jsx";
 
 export const Characters = () => {
 
@@ -12,11 +12,6 @@ export const Characters = () => {
         console.log(event.target.src);
         event.target.src = "https://starwars-visualguide.com/assets/img/placeholder.jpg"
     }
-    const handlePage = (link) => {
-        console.log(link);
-        // ejecutar un action que tenga un fetch con el get del link y lo ponga todo en character
-    }
-
 
     return (
 
@@ -37,7 +32,7 @@ export const Characters = () => {
                                 </h5>
                                 <div className="d-flex justify-content-between">
                                     <Link to={`/characters/${item.uid}`} className="btn btn-secondary">Details</Link>
-                                    <ButtonLike item={item} type="character" />
+                                    <Favourites item={item} type="character" />
                                 </div>
                             </div>
                         </div>

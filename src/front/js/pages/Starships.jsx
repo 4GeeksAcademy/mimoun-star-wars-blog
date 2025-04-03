@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
-import { ButtonLike } from "../pages/ButtonLike.jsx";
+import {Favourites } from "../pages/Favourites.jsx";
 
 export const Starships = () => {
 
@@ -30,7 +30,7 @@ export const Starships = () => {
                                 </h5>
                                 <div className="d-flex justify-content-between">
                                     <Link to={`/starships/${item.uid}`} className="btn btn-secondary">Details</Link>
-                                    <ButtonLike item={item} type="starship" />
+                                    <Favourites item={item} type="starship" />
                                 </div>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 
-export const ButtonLike = ({ item, type }) => {
+export const Favourites = ({ item, type }) => {
     const { store, actions } = useContext(Context);
 
     const isFavorite = store.favorites.some(fav => fav.name === item.name && fav.type === type);
