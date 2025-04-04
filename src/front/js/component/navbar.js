@@ -4,14 +4,11 @@ import { Link } from "react-router-dom";
 export const Navbar = () => {
 	return (
 		<nav className="navbar navbar-light bg-light">
-			<div className="container">
-				<Link to="/">
-					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
-				</Link>
-				<div className="">
-					<Link  to="/starships"><button>Starships</button></Link>
-		            <Link to="/planets"><button>Planets</button></Link>
-		            <Link  to="/characters"><button>Characters</button></Link>	
+			<div className="container d-flex">
+				<div className="d-grid gap-2 d-md-flex ">
+					<Link  to="/starships"><button type="button" class="btn btn-primary">Starships</button></Link>
+		            <Link to="/planets"><button type="button" class="btn btn-primary">Planets</button></Link>
+		            <Link  to="/characters"><button type="button" class="btn btn-primary">Characters</button></Link>	
 				</div>
 			</div>
 		</nav>

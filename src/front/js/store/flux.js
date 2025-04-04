@@ -61,38 +61,49 @@ const getState = ({ getStore, getActions, setStore }) => {
 			setCurrentStarship: (value) => { setStore({ currentStarship: value})},
 			
 			getCharacters: async () => {
-				if (localStorage.getItem('characters')) {
-					setStore( { 
-						characters: JSON.parse(localStorage.getItem('characters')),
-						paginationCharacter: JSON.parse(localStorage.getItem("paginationCharacter")),
-					} );		
-					return
-				}
-				const uri = `${getStore().baseUrlStarwars}/people`;
-				const options = {
-					method: "GET"
-				}
-				const response = await fetch(uri, options);
-				if (!response.ok) {
-					console.log("error:", response.status, response.statusText);
-				}
-				const data = await response.json();
-				const pagination = [];
-				for (let i = 1; i <= data.total_pages; i++) {
-					pagination.push({
-						link: `https://www.swapi.tech/api/people?page=${i}&limit=10`,
-						previous: i === 1 ? null : `https://www.swapi.tech/api/people?page=${i-1}&limit=10`,
-						next:  i === data.total_pages ? null : `https://www.swapi.tech/api/people?page=${i+1}&limit=10`,
-					})}
-
-				setStore( { 
-					characters: data.results,
-					paginationCharacter: pagination,
-				} );		
-				localStorage.setItem('characters', JSON.stringify(data.results))
-				localStorage.setItem("paginationCharacter", pagination)
-				console.log(data);
 				
+				const savedCharacters = localStorage.getItem('characters');
+				const savedPages = localStorage.getItem('paginationCharacter');
+				
+				if (savedCharacters && savedPages) {
+					
+					setStore({
+						characters: JSON.parse(savedCharacters),
+						paginationCharacter: JSON.parse(savedPages)
+					});
+					return; 
+				}
+				
+				try {
+					const response = await fetch('https://www.swapi.tech/api/people');
+					
+					if (!response.ok) {
+						throw new Error('La API no respondió bien');
+					}
+					
+					const data = await response.json();
+					
+					const pagination = [{
+						page: 1,
+						link: 'https://www.swapi.tech/api/people?page=1&limit=10',
+						previous: null,
+						next: data.next || null
+					}];
+					
+					setStore({
+						characters: data.results,
+						paginationCharacter: pagination
+					});
+					
+					localStorage.setItem('characters', JSON.stringify(data.results));
+					localStorage.setItem('paginationCharacter', JSON.stringify(pagination));
+					
+				} catch (error) {
+					console.error('Ocurrió un error:', error);
+					setStore({
+						error: 'No se pudieron cargar los personajes'
+					});
+				}
 			},
 
 			getCharacter: async (id) => {
